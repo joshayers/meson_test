@@ -7,13 +7,13 @@ Steps to reproduce:
 
 2. Activate venv
 
- # Linux
+    1. Linux
 
-    source .venv/bin/activate
+        source .venv/bin/activate
 
- # Windows
+    2. Windows
 
-    .venv\Scripts\activate
+        .venv\Scripts\activate
 
 3. Install dependencies
 
