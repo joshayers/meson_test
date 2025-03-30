@@ -1,0 +1,54 @@
+name: build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  editable-install:
+    strategy:
+      matrix:
+        os:
+          - 'ubuntu-24.04'
+          - 'windows-2022'
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.11
+    - name: Install Python dependencies
+      run: |
+        python -m venv .venv --prompt rs_example_lib --upgrade-deps
+        source .venv/bin/activate
+        pip install .[dev]
+    - name: Install editable
+        pip install --no-build-isolation --config-settings=editable-verbose=true --editable .
+    - name: Import a module
+      run: |
+        python -c "from rs_example_lib import frf"
+
+  build-wheel:
+    strategy:
+      matrix:
+        os:
+          - 'ubuntu-24.04'
+          - 'windows-2022'
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.11
+    - name: Install Python dependencies
+      run: |
+        python -m venv .venv --prompt rs_example_lib --upgrade-deps
+        source .venv/bin/activate
+        pip install .[build]
+    - name: Build wheel
+        python -m build .
