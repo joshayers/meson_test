@@ -1,10 +1,8 @@
-import math
 import time
 
 import numpy as np
 
 from rs_example_lib.rss import rss_cython, rss_par_cython
-from rs_example_lib.trapz import trapz_cpp, trapz_cython
 
 
 def rss_numpy(x, y):

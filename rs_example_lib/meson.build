@@ -1,38 +1,46 @@
-project(
-  'rs_example_lib', 'cython', 'cpp',
-  license: 'Apache-2.0 or LGPL-2.1-or-later',
-  meson_version: '>= 1.3.0',
+
+py.extension_module(
+  'frf',
+  'frf.pyx',
+  include_directories: [include_numpy],
+  dependencies: [dep_py],
+  override_options : ['cython_language=cpp'],
+  cpp_args: [numpy_no_deprec_api_arg],
+  install: true,
+  subdir: 'rs_example_lib',
 )
 
-if meson.get_compiler('cpp').get_id() == 'msvc'
-  warn_arg = '/W3'
-else
-  warn_arg = '-Wall'
-endif
-add_global_arguments(warn_arg, language: 'cpp')
+py.extension_module(
+  'rss',
+  'rss.pyx',
+  include_directories: [include_numpy],
+  dependencies: [dep_py, dep_openmp],
+  override_options : ['cython_language=cpp'],
+  cpp_args: [numpy_no_deprec_api_arg],
+  install: true,
+  subdir: 'rs_example_lib',
+)
 
-py = import('python').find_installation()
+py.extension_module(
+  'trapz',
+  'trapz.pyx',
+  include_directories: [include_numpy, include_src],
+  dependencies: [dep_py, dep_openmp],
+  override_options : ['cython_language=cpp'],
+  cpp_args: [numpy_no_deprec_api_arg],
+  install: true,
+  subdir: 'rs_example_lib',
+)
 
-dep_py = py.dependency()
-dep_openmp = dependency('openmp', required: false)
+python_sources = [
+  '__init__.py',
+  'time_frf.py',
+  'time_rss.py',
+  'time_trapz.py',
+]
 
-# This is adapted from SciPy
-# https://github.com/scipy/scipy/tree/main/scipy/meson.build
-includedir_numpy = run_command(py,
-    [
-      '-c',
-      '''import os
-import numpy
-incdir = os.path.relpath(numpy.get_include())
-print(incdir)
-  '''
-    ],
-    check: true
-  ).stdout().strip()
-include_numpy = include_directories(includedir_numpy)
-numpy_no_deprec_api_arg = '-DNPY_NO_DEPRECATED_API=NPY_1_7_API_VERSION'
-
-# include dir for C++ files
-include_src = include_directories('rs_example_lib')
-
-subdir('rs_example_lib')
+py.install_sources(
+  python_sources,
+  pure: false,              # Will be installed next to binaries
+  subdir: 'rs_example_lib'  # Folder relative to site-packages to install to
+)
