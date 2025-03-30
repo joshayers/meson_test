@@ -50,3 +50,37 @@ jobs:
     - name: Build wheel
       run: |
         python -m build .
+    - name: Upload wheel
+        uses: actions/upload-artifact@v4
+        with:
+          name: wheel_${{ matrix.os }}
+          path: build/*
+
+  install-wheel:
+    strategy:
+      matrix:
+        os:
+          - 'ubuntu-24.04'
+          - 'windows-2022'
+    runs-on: ${{ matrix.os }}
+    needs: build-wheel
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.11
+    - name: Install Python dependencies
+      run: |
+        pip install numpy
+    - name: Download wheel
+      uses: actions/download-artifact@v4
+        with:
+          name: wheel_${{ matrix.os }}
+    - name: Install wheel
+      run: |
+        pip install build/rs_example_lib*.whl
+    - name: Import a module
+      run: |
+        python -c "from rs_example_lib import frf"
