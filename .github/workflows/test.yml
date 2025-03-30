@@ -78,6 +78,7 @@ jobs:
         name: wheel_${{ matrix.os }}
         path: dist/
     - name: Install wheel
+      shell: bash
       run: |
         pip install dist/rs_example_lib*.whl
     - name: Import a module
