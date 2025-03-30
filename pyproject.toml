@@ -17,6 +17,8 @@ requires = [
 ]
 build-backend = "mesonpy"
 
+[tool.meson-python.args]
+setup = ['--vsenv']
 
 [tool.ruff]
 line-length = 120
