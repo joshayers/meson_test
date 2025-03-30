@@ -54,7 +54,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: wheel_${{ matrix.os }}
-        path: build/*
+        path: dist/
 
   install-wheel:
     strategy:
@@ -80,7 +80,7 @@ jobs:
         name: wheel_${{ matrix.os }}
     - name: Install wheel
       run: |
-        pip install build/rs_example_lib*.whl
+        pip install dist/rs_example_lib*.whl
     - name: Import a module
       run: |
         python -c "from rs_example_lib import frf"
