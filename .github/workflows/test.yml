@@ -65,8 +65,6 @@ jobs:
     runs-on: ${{ matrix.os }}
     needs: build-wheel
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
