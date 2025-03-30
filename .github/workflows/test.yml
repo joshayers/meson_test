@@ -78,6 +78,19 @@ jobs:
       uses: actions/download-artifact@v4
       with:
         name: wheel_${{ matrix.os }}
+        path: dist/
+    - name: List dir Linux
+      if: ${{ matrix.os }} == 'ubuntu-24.04'
+      run: |
+        ls -la
+        cd dist
+        ls -la
+    - name: List dir Win
+      if: ${{ matrix.os }} == 'windows-2022'
+      run: |
+        dir
+        cd dist
+        dir
     - name: Install wheel
       run: |
         pip install dist/rs_example_lib*.whl
