@@ -26,6 +26,7 @@ jobs:
         source .venv/bin/activate
         pip install .[dev]
     - name: Install editable
+      run: |
         pip install --no-build-isolation --config-settings=editable-verbose=true --editable .
     - name: Import a module
       run: |
@@ -51,4 +52,5 @@ jobs:
         source .venv/bin/activate
         pip install .[build]
     - name: Build wheel
+      run: |
         python -m build .
