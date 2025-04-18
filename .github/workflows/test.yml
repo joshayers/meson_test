@@ -25,7 +25,7 @@ jobs:
         pip install .[dev]
     - name: Install editable
       run: |
-        pip install --no-build-isolation --config-settings=editable-verbose=true -Cbuild-dir=build_editable --editable .
+        pip install --no-build-isolation --config-settings=editable-verbose=true -Cbuild-dir=".build_editable" --editable .
     - name: Import a module
       run: |
         python -c "from rs_example_lib import frf"

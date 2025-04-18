@@ -7,7 +7,7 @@
     "files.trimTrailingWhitespace": true,
     "python.analysis.autoImportCompletions": false,
     "python.analysis.extraPaths": [
-        "build_editable",
+        ".build_editable",
     ],
     // Linting
     "ruff.importStrategy": "fromEnvironment",

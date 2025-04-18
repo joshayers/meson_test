@@ -1,7 +1,7 @@
 
 1. Create virtual env
 
-    `python -m venv .venv/ --prompt rs_example_lib --upgrade-deps`
+    `poetry install --extras=dev`
 
 2. Activate venv
 
@@ -19,6 +19,4 @@
 
 4. Install editable project
 
-    `pip install --no-build-isolation --config-settings=editable-verbose=true --editable .`
-
-`pip install --no-build-isolation --config-settings=editable-verbose=true -Cbuild-dir=build_editable --editable .`
+    `pip install --no-build-isolation --config-settings=editable-verbose=true -Cbuild-dir=".build_editable" --editable .`
